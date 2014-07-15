@@ -1,0 +1,17 @@
+%h1 Listing assets
+
+%table
+  %tr
+    %th  file name
+    %th  file size
+    %th  file_last_updated
+
+  - @assets.each do |asset|
+    %tr
+      %td= link_to asset.uploaded_file.file.filename, download_url(asset)
+      %td= link_to 'Edit', edit_asset_path(asset)
+      %td= link_to 'Destroy', asset, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Asset', new_asset_path

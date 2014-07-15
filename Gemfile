@@ -37,5 +37,6 @@ gem 'debugger', group: [:development, :test]
 gem 'haml-rails'
 
 gem 'devise'
+gem 'carrierwave'
 
 

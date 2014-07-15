@@ -1,0 +1,32 @@
+= form_for @asset, :html => {:multipart => true} do |f|
+  - if @asset.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@asset.errors.count, "error")} prohibited this asset from being saved:"
+      %ul
+        - @asset.errors.full_messages.each do |msg|
+          %li= msg
+  = f.label :uploaded_file, "File"
+  = f.file_field :uploaded_file ,:class => 'file-btn'
+  .actions
+    = f.submit 'Upload File'
+
+:javascript
+  var displayFile;
+
+  displayFile = function(object) {
+    var file, filename;
+    file = object.value.split("\\");
+    filename = file[file.length - 1];
+    return $("#file-name").text(filename);
+  };
+
+  $("#file-btn").on("click", function() {
+    return $("#file-picker").click();
+  });
+
+  $("#file-picker").on("change", function() {
+    return displayFile(this);
+  });
+
+
+
