@@ -10,6 +10,6 @@
  *
  *= require_self
  *= require_tree .
+ *= require typica-login
  */
-@import "bootstrap-sprockets";
-@import "bootstrap";
+

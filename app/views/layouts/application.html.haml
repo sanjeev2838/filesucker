@@ -2,8 +2,44 @@
 %html
   %head
     %title Filesucker
-    = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
-    = javascript_include_tag "application", "data-turbolinks-track" => true
     = csrf_meta_tags
+    %meta{content: "width=device-width, initial-scale=1.0", name: "viewport"}/
+    %link{href: "http://wbpreview.com/previews/WB0F56883/css/bootstrap.min.css", rel: "stylesheet"}/
+    %link{href: "http://wbpreview.com/previews/WB0F56883/css/bootstrap-responsive.min.css", rel: "stylesheet"}/
+    = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
+
   %body
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .container
+          %a.btn.btn-navbar{"data-target" => ".nav-collapse", "data-toggle" => "collapse"}
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          %a.brand{:href =>"#"}
+          = image_tag 'file sucker.jpg', :alt => "Typica - Bootstrap Awesome Template}/"
+          %ul.nav.nav-pills.pull-right
+            %li{class: active_if_current(root_path)}
+              = link_to "Home", root_path
+              - if user_signed_in?
+                %li
+                  = link_to "Log out", destroy_user_session_path, method: :delete
+              - else
+                %li{class: active_if_current(new_user_registration_path)}
+                  = link_to "Sign up", new_user_registration_path
+                %li{class: active_if_current(new_user_session_path)}
+                  = link_to "Sign in", new_user_session_path
+
+    - if notice.present?
+      %p#flash_notice.notice.alert.alert-success= notice
+      = javascript_tag "setTimeout(function(){ $('#flash_notice').remove(); }, 5000);"
+    - if alert.present?
+      %p#flash_errors.alert.alert-danger= alert
+      = javascript_tag "setTimeout(function(){ $('#flash_errors').remove();}, 5000);"
+    - flash[:error] = flash[:errors] = flash[:notice] = nil
+
     = yield
+
+    %script{:src => "//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"}
+    = javascript_include_tag "application", "data-turbolinks-track" => true
+    %script {src: "http://html5shim.googlecode.com/svn/trunk/html5.js"}
