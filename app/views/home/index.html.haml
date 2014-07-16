@@ -24,12 +24,17 @@
   %p File sharing web application you can't ignore.
 - else
   %upload_link
-    - if @current_folder
-      = link_to "Upload", new_sub_file_path(@current_folder)
-      = link_to "New Folder", new_sub_folder_path(@current_folder)
+    - unless @is_this_folder_being_shared
+      %ul#top_menu
+        - if @current_folder
+          %li= link_to "Upload", new_file_path(@current_folder)
+          %li= link_to "New Folder", new_sub_folder_path(@current_folder)
+        - else
+          %li= link_to "Upload", new_asset_path
+          %li= link_to "New Folder", new_folder_path
     - else
-      = link_to "Upload", new_asset_path
-      = link_to "New Folder", new_folder_path
+      %h3
+        This folder is being shared to you by #{@current_folder.user.email}
 
 
   .breadcrumbs
@@ -46,6 +51,14 @@
     .file_size_header Size
     .file_last_updated_header Modified
   .asset_list
+    - @being_shared_folders.each do |folder|
+      -##todo implement  folder.shared?  method later on
+      %div{class: "asset_details #{'shared_folder'}", id: "folder_#{folder.id}"}
+        .file_name= link_to folder.name, browse_path(folder)
+        .file_size -
+        .file_last_updated -
+        .actions
+
     - @folders.each do |folder|
       .asset_details.folder
         .file_name= link_to folder.name, browse_path(folder)
@@ -53,11 +66,11 @@
         .file_last_updated -
         .actions
           .share
-            = link_to "Share", "#", :folder_id => folder.id, :folder_name => folder.name
+            = link_to "Share", "#", :folder_id => folder.id, :folder_name => folder.name unless @is_this_folder_being_shared
           .rename
-            = link_to "Rename", rename_folder_path(folder)
+            = link_to "Rename", rename_folder_path(folder) unless @is_this_folder_being_shared
           .delete
-            = link_to "Delete", folder, :confirm => 'Are you sure?', :method => :delete
+            = link_to "Delete", folder, :confirm => 'Are you sure?', :method => :delete unless @is_this_folder_being_shared
     - @assets.each do |asset|
       .asset_details
         .file_name= link_to  asset.uploaded_file.file.filename, download_url(asset)
@@ -81,6 +94,3 @@
       = text_area_tag 'message',"",  :class => 'text ui-widget-content ui-corner-all'
       = hidden_field_tag "folder_id"
 
-:javascript
-   $( ".share a" ).click(function() {
-          alert("hello world")
