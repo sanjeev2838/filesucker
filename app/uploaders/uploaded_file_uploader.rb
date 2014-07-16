@@ -1,15 +1,16 @@
 # encoding: utf-8
 require 'carrierwave/processing/mime_types'
+require 'action_view/helpers/number_helper'
 
 class UploadedFileUploader < CarrierWave::Uploader::Base
   include CarrierWave::MimeTypes
-
+  include ActionView::Helpers::NumberHelper
   #process :set_content_type
   process :save_content_type_and_size_in_model
 
   def save_content_type_and_size_in_model
     model.content_type = file.content_type if file.content_type
-    model.file_size = file.size
+    model.file_size = number_to_human_size(file.size)
   end
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick

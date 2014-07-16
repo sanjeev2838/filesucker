@@ -9,6 +9,7 @@
   - @assets.each do |asset|
     %tr
       %td= link_to asset.uploaded_file.file.filename, download_url(asset)
+      %td= asset.file_size
       %td= link_to 'Edit', edit_asset_path(asset)
       %td= link_to 'Destroy', asset, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
