@@ -38,5 +38,6 @@ gem 'haml-rails'
 
 gem 'devise'
 gem 'carrierwave'
+gem "acts_as_tree"
 
 

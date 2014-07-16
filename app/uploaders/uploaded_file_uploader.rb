@@ -5,7 +5,7 @@ require 'action_view/helpers/number_helper'
 class UploadedFileUploader < CarrierWave::Uploader::Base
   include CarrierWave::MimeTypes
   include ActionView::Helpers::NumberHelper
-  #process :set_content_type
+
   process :save_content_type_and_size_in_model
 
   def save_content_type_and_size_in_model

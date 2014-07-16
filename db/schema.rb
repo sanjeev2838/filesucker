@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140715134157) do
+ActiveRecord::Schema.define(version: 20140716060952) do
 
   create_table "assets", force: true do |t|
     t.string   "uploaded_file"
@@ -20,6 +20,14 @@ ActiveRecord::Schema.define(version: 20140715134157) do
     t.datetime "updated_at"
     t.string   "file_size"
     t.string   "content_type"
+  end
+
+  create_table "folders", force: true do |t|
+    t.string   "name"
+    t.integer  "parent_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|
