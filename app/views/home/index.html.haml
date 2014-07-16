@@ -53,7 +53,7 @@
         .file_last_updated -
         .actions
           .share
-            = link_to "Share"
+            = link_to "Share", "#", :folder_id => folder.id, :folder_name => folder.name
           .rename
             = link_to "Rename", rename_folder_path(folder)
           .delete
@@ -68,3 +68,19 @@
             = link_to "Download", download_url(asset)
           .delete
             = link_to "Delete", asset, :confirm => 'Are you sure?', :method => :delete
+
+  #invitation_form{style: "display:none", title: "Invite others to share"}
+    = form_tag '/home/share' do
+      %label{for: "email_addresses"} Enter recipient email addresses here
+      %br/
+      = text_field_tag 'email_addresses', "", :class => 'text ui-widget-content ui-corner-all'
+      %br/
+      %br/
+      %label{for: "message"} Optional message
+      %br/
+      = text_area_tag 'message',"",  :class => 'text ui-widget-content ui-corner-all'
+      = hidden_field_tag "folder_id"
+
+:javascript
+   $( ".share a" ).click(function() {
+          alert("hello world")

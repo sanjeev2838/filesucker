@@ -11,6 +11,9 @@ Filesucker::Application.routes.draw do
 
   match "browse/:folder_id/rename" => "folders#edit", :as => "rename_folder" , via:[:get]
 
+  # for sharing folders
+  match "home/share" => "home#share" , via:[:post]
+
   devise_for :users
   get "home/index"
   root :to => "home#index"

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140716065822) do
+ActiveRecord::Schema.define(version: 20140716093411) do
 
   create_table "assets", force: true do |t|
     t.string   "uploaded_file"
@@ -27,6 +27,16 @@ ActiveRecord::Schema.define(version: 20140716065822) do
     t.string   "name"
     t.integer  "parent_id"
     t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "shared_folders", force: true do |t|
+    t.integer  "user_id"
+    t.string   "shared_email"
+    t.integer  "shared_user_id"
+    t.integer  "folder_id"
+    t.string   "message"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
