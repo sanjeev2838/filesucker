@@ -7,6 +7,7 @@
           %li= msg
   = f.label :uploaded_file, "File"
   = f.file_field :uploaded_file ,:class => 'file-btn'
+  = f.hidden_field :folder_id
   .actions
     = f.submit 'Upload File'
 
