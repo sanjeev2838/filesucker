@@ -51,8 +51,20 @@
         .file_name= link_to folder.name, browse_path(folder)
         .file_size -
         .file_last_updated -
+        .actions
+          .share
+            = link_to "Share"
+          .rename
+            = link_to "Rename", rename_folder_path(folder)
+          .delete
+            = link_to "Delete", folder, :confirm => 'Are you sure?', :method => :delete
     - @assets.each do |asset|
       .asset_details
         .file_name= link_to  asset.uploaded_file.file.filename, download_url(asset)
         .file_size= asset.file_size
         .file_last_updated= nil
+        .actions
+          .download
+            = link_to "Download", download_url(asset)
+          .delete
+            = link_to "Delete", asset, :confirm => 'Are you sure?', :method => :delete

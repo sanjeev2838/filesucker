@@ -12,4 +12,7 @@
     = f.hidden_field :parent_id
 
   .actions
-    = f.submit 'Save'
+    - if @folder.new_record?
+      = f.submit "Create Folder"
+    - else
+      = f.submit "Rename Folder"

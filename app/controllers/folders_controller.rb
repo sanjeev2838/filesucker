@@ -1,5 +1,5 @@
 class FoldersController < ApplicationController
-  before_action :set_folder, only: [:show, :edit, :update, :destroy]
+  before_action :set_folder, only: [:show, :update, :destroy]
   before_filter :authenticate_user!
 
   def index
@@ -18,6 +18,8 @@ class FoldersController < ApplicationController
   end
 
   def edit
+    @folder = current_user.folders.find(params[:folder_id])
+    @current_folder = @folder.parent    #this is just for breadcrumbs
   end
 
   def create
