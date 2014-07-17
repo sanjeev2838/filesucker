@@ -6,6 +6,7 @@ class HomeController < ApplicationController
     # and only the files which are not under any folders.
     #@folders = current_user.folders.order("name desc")
     #@assets = current_user.assets.all
+    debugger
     @being_shared_folders = current_user.shared_folders_by_others
 
     @folders = current_user.folders.roots

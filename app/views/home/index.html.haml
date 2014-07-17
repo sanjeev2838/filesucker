@@ -1,96 +1,76 @@
--#.container
--#  #login-wraper
--#    %form.form.login-form
--#    = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
--#      %legend
--#        Sign in to
--#        %span.blue File Sucker
--#      .body
--#        %label Email
--#        = f.email_field :email, autofocus: true, type:'text'
--#        %label Password
--#        = f.password_field :password, autocomplete: "off"
--#      .footer
--#        %label.checkbox.inline
--#          %input#inlineCheckbox1{:type => "checkbox", :value => "option1"}
--#            Remember me
--#        = f.submit "Login", :class => 'button btn btn-success'
--#
--#%footer.white.navbar-fixed-bottom
--#  Don't have an account yet?
--#  = link_to 'Register', new_user_registration_path , class: 'btn btn-black'
-- unless user_signed_in?
-  %h1 Welcome to File Sucker
-  %p File sharing web application you can't ignore.
-- else
-  %upload_link
-    - unless @is_this_folder_being_shared
-      %ul#top_menu
-        - if @current_folder
-          %li= link_to "Upload", new_file_path(@current_folder)
-          %li= link_to "New Folder", new_sub_folder_path(@current_folder)
-        - else
-          %li= link_to "Upload", new_asset_path
-          %li= link_to "New Folder", new_folder_path
-    - else
-      %h3
-        This folder is being shared to you by #{@current_folder.user.email}
+#container
+  - unless user_signed_in?
+    %h1 Welcome to File Sucker
+    %p File sharing web application you can't ignore.
+  - else
+    #upload_link
+      - unless @is_this_folder_being_shared
+        %ul#top_menu
+          - if @current_folder
+            %li= link_to "Upload", new_file_path(@current_folder)
+            %li= link_to "New Folder", new_sub_folder_path(@current_folder)
+          - else
+            %li= link_to "Upload", new_asset_path
+            %li= link_to "New Folder", new_folder_path
+      - else
+        %h3
+          This folder is being shared to you by #{@current_folder.user.email}
 
 
-  .breadcrumbs
-    - if @current_folder #checking if we are under any folder
-      = link_to "ShareBox", root_url
-      - @current_folder.ancestors.reverse.each do |folder|
-        » #{link_to folder.name, browse_path(folder)}
-      »  #{@current_folder.name}
-    - else #if we are not under any folder
-      ShareBox
+    .breadcrumbs
+      - if @current_folder #checking if we are under any folder
+        = link_to "ShareBox", root_url
+        - @current_folder.ancestors.reverse.each do |folder|
+          » #{link_to folder.name, browse_path(folder)}
+        »  #{@current_folder.name}
+      - else #if we are not under any folder
+        ShareBox
 
-  .asset_list_header
-    .file_name_header File Name
-    .file_size_header Size
-    .file_last_updated_header Modified
-  .asset_list
-    - @being_shared_folders.each do |folder|
-      -##todo implement  folder.shared?  method later on
-      %div{class: "asset_details #{'shared_folder'}", id: "folder_#{folder.id}"}
-        .file_name= link_to folder.name, browse_path(folder)
-        .file_size -
-        .file_last_updated -
-        .actions
+    .asset_list_header
+      .file_name_header File Name
+      .file_size_header Size
+      .file_last_updated_header Modified
+    .asset_list
+      - @being_shared_folders.each do |folder|
+        -##todo implement  folder.shared?  method later on
+        %div{class: "asset_details #{'shared_folder'}", id: "folder_#{folder.id}"}
+          .file_name= link_to folder.name, browse_path(folder)
+          .file_size -
+          .file_last_updated -
+          .actions
 
-    - @folders.each do |folder|
-      .asset_details.folder
-        .file_name= link_to folder.name, browse_path(folder)
-        .file_size -
-        .file_last_updated -
-        .actions
-          .share
-            = link_to "Share", "#", :folder_id => folder.id, :folder_name => folder.name unless @is_this_folder_being_shared
-          .rename
-            = link_to "Rename", rename_folder_path(folder) unless @is_this_folder_being_shared
-          .delete
-            = link_to "Delete", folder, :confirm => 'Are you sure?', :method => :delete unless @is_this_folder_being_shared
-    - @assets.each do |asset|
-      .asset_details
-        .file_name= link_to  asset.uploaded_file.file.filename, download_url(asset)
-        .file_size= asset.file_size
-        .file_last_updated= nil
-        .actions
-          .download
-            = link_to "Download", download_url(asset)
-          .delete
-            = link_to "Delete", asset, :confirm => 'Are you sure?', :method => :delete
+      - @folders.each do |folder|
+        .asset_details.folder
+          .file_name= link_to folder.name, browse_path(folder)
+          .file_size -
+          .file_last_updated -
+          .actions
+            .share
+              = link_to "Share", "#", :folder_id => folder.id, :folder_name => folder.name unless @is_this_folder_being_shared
+            .rename
+              = link_to "Rename", rename_folder_path(folder) unless @is_this_folder_being_shared
+            .delete
+              = link_to "Delete", folder, :confirm => 'Are you sure?', :method => :delete unless @is_this_folder_being_shared
+      - @assets.each do |asset|
+        .asset_details
+          .file_name= link_to  asset.uploaded_file.file.filename, download_url(asset)
+          .file_size= asset.file_size
+          .file_last_updated= nil
+          .actions
+            .download
+              = link_to "Download", download_url(asset)
+            .delete
+              = link_to "Delete", asset, :confirm => 'Are you sure?', :method => :delete
 
-  #invitation_form{style: "display:none", title: "Invite others to share"}
-    = form_tag '/home/share' do
-      %label{for: "email_addresses"} Enter recipient email addresses here
-      %br/
-      = text_field_tag 'email_addresses', "", :class => 'text ui-widget-content ui-corner-all'
-      %br/
-      %br/
-      %label{for: "message"} Optional message
-      %br/
-      = text_area_tag 'message',"",  :class => 'text ui-widget-content ui-corner-all'
-      = hidden_field_tag "folder_id"
+    #invitation_form{style: "display:none", title: "Invite others to share"}
+      = form_tag '/home/share' do
+        %label{for: "email_addresses"} Enter recipient email addresses here
+        %br/
+        = text_field_tag 'email_addresses', "", :class => 'text ui-widget-content ui-corner-all'
+        %br/
+        %br/
+        %label{for: "message"} Optional message
+        %br/
+        = text_area_tag 'message',"",  :class => 'text ui-widget-content ui-corner-all'
+        = hidden_field_tag "folder_id"
 

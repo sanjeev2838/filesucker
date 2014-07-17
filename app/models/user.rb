@@ -9,12 +9,17 @@ class User < ActiveRecord::Base
 
   #this is for folders which this user has shared
   has_many :shared_folders, :dependent => :destroy
+  has_many :being_shared_folders, :class_name => "SharedFolder", :foreign_key => "shared_user_id", :dependent => :destroy
+
+  #for many to many asscoiation implementation
+  #here the join table is being_shared_folders
+  #:source option specifies the source association name
   has_many :shared_folders_by_others, :through => :being_shared_folders, :source => :folder
 
 #this is for folders which the user has been shared by other users
-  has_many :being_shared_folders, :class_name => "SharedFolder", :foreign_key => "shared_user_id", :dependent => :destroy
 
-  #Todo Add the logic regarding the sync of folders togethor later on
+
+  #Todo Add the logic regarding the sync of folders todgethor later on
 #  after_create :check_and_assign_shared_ids_to_shared_folders
 #
 ##this is to make sure the new user ,of which the email addresses already used to share folders by others, to have access to those folders
