@@ -9,3 +9,5 @@ task list  :-
 6.)
 7.)
 8.)
+Got Motivation from this :-
+http://codyaray.com/downloads/2012/03/How-to-Build-a-Dropbox-like-Sharing-App-using-Ruby-on-Rails.html
